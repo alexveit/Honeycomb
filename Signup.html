@@ -7,6 +7,9 @@
 
     <base href="#" />
     <script type="text/javascript" src="includes/jscript/jquery.js"></script>
+	
+	
+	<script type="text/javascript" src="alexfunctions.js"></script>
     
 
 <script type="text/javascript">
@@ -180,7 +183,7 @@ getticketsuggestions();
 <p align="center"><img src="verifyimage.php" align="middle" /> <input type="text" name="code" class="input-small" maxlength="5" /></p>
 
 <div class="form-actions" style="padding-left:160px;">
-    <input class="btn btn-primary" type="submit" name="save" value="Submit" />
+    <input class="btn btn-primary" onclick="proc_submit()" type="submit" name="save" value="Submit" />
     <input class="btn" type="reset" value="Cancel" />
 </div>
 
