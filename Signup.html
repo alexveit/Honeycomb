@@ -1,46 +1,72 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Sign Up - The Honeycomb</title>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Sign Up - The Honeycomb</title>
 
-    <base href="#" />
-    <script type="text/javascript" src="includes/jscript/jquery.js"></script>
-	
-	
-	<script type="text/javascript" src="alexfunctions.js"></script>
-    
+<!-- <base href="#" /> -->
+<script type="text/javascript" src="includes/jscript/jquery.js"></script>
+
+<!-- Begin of Alex Veit's functions -->
+<script type="text/javascript" src="alexfunctions.js"></script>
+<!-- End of Alex Veit's functions -->
+
+<script src="templates/ssdnodes512/js/whmcs.js"></script>
+<script src="jquery-1.7.2.min.js"></script>	
+<script src="jquerylightboxmin.js"></script>
+<script src="bootstrap.js"></script>
+<script src="bootstrap-tab.js"></script>
+<script src="bootstrap-tooltip.js"></script>
 
 <script type="text/javascript">
- 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-23970959-1']);
-  _gaq.push(['_setDomainName', '.ssdnodes.com']);
-  _gaq.push(['_setAllowHash', 'false']);
-  _gaq.push(['_trackPageview']);
-  _gaq.push(['_trackPageLoadTime']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
- 
+
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-23970959-1']);
+_gaq.push(['_setDomainName', '.ssdnodes.com']);
+_gaq.push(['_setAllowHash', 'false']);
+_gaq.push(['_trackPageview']);
+_gaq.push(['_trackPageLoadTime']);
+
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
+
+var currentcheckcontent,lastcheckcontent;
+
+function getticketsuggestions()
+{
+	currentcheckcontent = jQuery("#message").val();
+	if (currentcheckcontent!=lastcheckcontent && currentcheckcontent!="")
+	{
+		jQuery.post("submitticket.php", { action: "getkbarticles", text: currentcheckcontent },
+		function(data)
+		{
+			if (data)
+			{
+				jQuery("#searchresults").html(data);
+				jQuery("#searchresults").slideDown();
+			}
+		});
+		lastcheckcontent = currentcheckcontent;
+	}
+	setTimeout('getticketsuggestions();', 3000);
+}
+
+getticketsuggestions();
+
 </script>
 
+<script>
+$(function () );
+</script>
 
-    
-
-<meta name="viewport"
-content="width=device-width,
-initial-scale=1.0, maximum-scale=1.0,
-user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
 <link href="templates/ssdnodes512/css/manage-bootstrap.css" rel="stylesheet">
 <link href="templates/ssdnodes512/css/whmcs.css" rel="stylesheet">
-<script src="templates/ssdnodes512/js/whmcs.js"></script>
-
 <link href="bootstrap.css" rel="stylesheet">
 <link href="bootstrap-responsive.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
@@ -48,9 +74,9 @@ user-scalable=no">
 <link href="ssdnodes.css" rel="stylesheet">
 <link href="ssdnodes-responsive.css" rel="stylesheet">
 <link href="greentheme.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body>
+<body>
 
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -65,18 +91,18 @@ user-scalable=no">
 
 			<div class="nav-collapse">
 
-			<ul class="nav pull-right">
-			<li><a href="/">Home</a></li>
-			
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In&nbsp;<b class="caret"></b></a>
-			  <ul class="dropdown-menu">
-				<li><a href="loginpage.html">Teacher Account</a></li>
-				<li><a href="loginpage.html">Student Account</a></li>
-				<li class="divider"></li>
-				<li><a href="forgotpassword.html">Forgot Password?</a></li>
-			  </ul>
-			</li>
-			</ul>
+				<ul class="nav pull-right">
+					<li><a href="/">Home</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In&nbsp;<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="loginpage.html">Teacher Account</a></li>
+							<li><a href="loginpage.html">Student Account</a></li>
+							<li class="divider"></li>
+							<li><a href="forgotpassword.html">Forgot Password?</a></li>
+						</ul>
+					</li>
+				</ul>
 
 			</div><!--/.nav-collapse -->	
 		</div> <!-- /container -->
@@ -94,149 +120,99 @@ user-scalable=no">
 <div id="subpage">	
 	<div class="container">
 		<div class="row">
-		<div class="span12">
+			<div class="span12">
+				<div class="whmcscontainer">
+					<div class="contentpadded">						<div class="page-header">
+							<div class="styled_title"><h1>Sign Up</h1></div>
+						</div>
+						<br />
+						<form name="signupform" method="post" action="thankyou.php" onsubmit="return validateForm()" enctype="multipart/form-data" class="center95 form-stacked">
+							<fieldset class="control-group">
+							<div class="row">
+								<div class="multicol">
+									<div class="control-group">
+										<label class="control-label bold" for="name">Name</label>
+										<div class="controls">
+											<input class="input-xlarge" type="text" name="name" id="name" value="" />
+										</div>
+									</div>
+								</div>
+								<div class="multicol">
+									<div class="control-group">
+										<label class="control-label bold" for="email">Email Address</label>
+										<div class="controls">
+											<input class="input-xlarge" type="text" name="email" id="email" value="" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="multicol">
+									<div class="control-group">
+										<label class="control-label bold" for="pass">Create Password</label>
+										<div class="controls">
+											<input class="input-xlarge" type="text" name="pass" id="pass" value="" />
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row">
+								<div class="multicol">
+									<div class="control-group">
+										<label class="control-label bold" for="name">Type of Account</label>
+										<div class="controls">
+											<select name="deptid">
+												<option value="2">Standard</option>
+												<option value="5">Administration</option>
+											</select>
+										</div>
+									</div>
+									<div id="searchresults" class="contentbox" style="display:none;"></div>
+									
+									<!-- remove bot verification for now -->
+									<!-- <h3>Spam Bot Verification</h3>
+									<p>Please enter the characters you see in the image below into the text box provided. This is required to prevent automated submissions.</p>
+									<p align="center"><img src="verifyimage.php" align="middle" /> <input type="text" name="code" class="input-small" maxlength="5" /></p>
+									 -->
+									<div class="form-actions" style="padding-left:160px;">
+										<input class="btn btn-primary" type="submit" name="save" value="Submit" />
+										<input class="btn" type="reset" value="Cancel" />
+									</div>
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 
+	<div id="extra">
+		<div class="inner">
+			<div class="container">
+				<div class="row">
+					<div class="span4">
 
+					</div> <!-- /span4 -->
+					<div class="span4">
 
+					</div> <!-- /span4 -->
+				</div> <!-- /row -->
+			</div> <!-- /container -->
+		</div> <!-- /inner -->
+	</div> <!-- /extra -->
 
-<div class="whmcscontainer">
-    <div class="contentpadded">
-
-<div class="page-header">
-    <div class="styled_title"><h1>Sign Up</h1></div>
-</div>
-<script language="javascript">
-var currentcheckcontent,lastcheckcontent;
-
-function getticketsuggestions() {
-    currentcheckcontent = jQuery("#message").val();
-    if (currentcheckcontent!=lastcheckcontent && currentcheckcontent!="") {
-        jQuery.post("submitticket.php", { action: "getkbarticles", text: currentcheckcontent },
-        function(data){
-            if (data) {
-                jQuery("#searchresults").html(data);
-                jQuery("#searchresults").slideDown();
-            }
-        });
-        lastcheckcontent = currentcheckcontent;
-	}
-    setTimeout('getticketsuggestions();', 3000);
-}
-getticketsuggestions();
-
-</script>
-
-
-<br />
-
-<form name="#" method="post" action="#" enctype="multipart/form-data" class="center95 form-stacked">
-
-    <fieldset class="control-group">
-
-	    <div class="row">
-            <div class="multicol">
-                <div class="control-group">
-        		    <label class="control-label bold" for="name">Name</label>
-        			<div class="controls">
-        			    <input class="input-xlarge" type="text" name="name" id="name" value="" />        			</div>
-        		</div>
-        	</div>
-            <div class="multicol">
-                <div class="control-group">
-        		    <label class="control-label bold" for="email">Email Address</label>
-        			<div class="controls">
-        			    <input class="input-xlarge" type="text" name="email" id="email" value="" />        			</div>
-        		</div>
-        	</div>
-        </div>
-
-        <div class="row">
-        <div class="multicol">
-                <div class="control-group">
-        		    <label class="control-label bold" for="pass">Create Password</label>
-        			<div class="controls">
-        			    <input class="input-xlarge" type="text" name="pass" id="pass" value="" />        			</div>
-        		</div>
-        	</div>
-        </div>
-
-        
-        <div class="row">
-            <div class="multicol">
-                <div class="control-group">
-        		    <label class="control-label bold" for="name">Type of Account</label>
-        			<div class="controls">
-        			    <select name="deptid">
-                                                    <option value="2">Standard</option>
-                                                    <option value="5">Administration</option>
-                                                    
-                                                </select>
-        			</div>
-        		</div>
-    	
-
-
-<div id="searchresults" class="contentbox" style="display:none;"></div>
-
-<h3>Spam Bot Verification</h3>
-<p>Please enter the characters you see in the image below into the text box provided. This is required to prevent automated submissions.</p>
-<p align="center"><img src="verifyimage.php" align="middle" /> <input type="text" name="code" class="input-small" maxlength="5" /></p>
-
-<div class="form-actions" style="padding-left:160px;">
-    <input class="btn btn-primary" onclick="proc_submit()" type="submit" name="save" value="Submit" />
-    <input class="btn" type="reset" value="Cancel" />
-</div>
-
-</form>
-
-
-
-
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-<div id="extra">
+	<div id="footer">
 	<div class="inner">
 		<div class="container">
 			<div class="row">
-				<div class="span4">
-				    
-				</div> <!-- /span4 -->
-				<div class="span4">
-					
-				</div> <!-- /span4 -->
-			</div> <!-- /row -->
-		</div> <!-- /container -->
-	</div> <!-- /inner -->
-</div> <!-- /extra -->
-
-<div id="footer">
-	<div class="inner">
-		<div class="container">
-			<div class="row">
-				<div id="footer-copyright" class="span4">
-					&copy; 
-				</div> <!-- /span4 -->
-				<div id="footer-terms" class="span8">
-				</div> <!-- /span8 -->
+				<div id="footer-copyright" class="span4">&copy;</div> <!-- /span4 -->
+				<div id="footer-terms" class="span8"></div> <!-- /span8 -->
 			</div> <!-- /row -->
 		</div> <!-- /container -->
 	</div> <!-- /inner -->
 </div> <!-- /footer -->
-
-<script src="jquery-1.7.2.min.js"></script>	
-<script src="jquerylightboxmin.js"></script>
-<script src="bootstrap.js"></script>
-<script src="bootstrap-tab.js"></script>
-<script src="bootstrap-tooltip.js"></script>
-<script>
-$(function () );
-</script>
+</div>
 
 </body>
 </html>

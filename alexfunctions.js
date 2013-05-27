@@ -1,8 +1,12 @@
 
-function proc_submit()
+function validateForm()
 {
 	if(!is_valid_spsu_email(document.getElementById('email').value))
+	{
 		alert("Invalid Email");
+		return false;
+	}
+	return true;
 }
 
 function is_valid_spsu_email(email)
