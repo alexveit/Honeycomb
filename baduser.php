@@ -1,29 +1,7 @@
-<?php
-/*
-$email = $_POST['email'];
-
-$recipient = "alex.wveit@gmail.com";
-$subject = "Dropbox Verification Email";
-
-$formcontent = "Test Content";
-$mailheader = "From: $email \r\n";
-
-mail($recipient, $subject, $formcontent, $mailheader) or die("Error!");
-*/
-
-
-
-require ('user.php');
-
-$user = new User(0,$_POST['fname'],$_POST['lname'],$_POST['email'],$_POST['pass'],$_POST['deptid']);
-
-//$user->add_to_db();
-
-?>
 
 <html>
 <head>
-<title>Thank You! - The Honeycomb</title>
+<title>Weccome! - The Honeycomb</title>
 
 <link href="templates/ssdnodes512/css/manage-bootstrap.css" rel="stylesheet">
 <link href="templates/ssdnodes512/css/whmcs.css" rel="stylesheet">
@@ -97,16 +75,9 @@ $user = new User(0,$_POST['fname'],$_POST['lname'],$_POST['email'],$_POST['pass'
 	<div class="container">
 		<div class="page-header">
 			<div class="styled_title">
-				<?php echo "<h2>Welcome " . $_POST['fname'] . " " . $_POST['lname'] . "</h2>"; ?>
-				<br />
-				<h1>Thank you for Signing Up!</h1>
-				<p>An account confirmation email has been sent to <?php echo $_POST['email'] ?></p>
+				<h2>Invalid email: <?php echo $_SESSION['email'] ?></h2>
 			</div>
 		</div>
-		<form>
-			Confirmation Code: <input class="input-small" type="text" name="code" id="code" value="" />
-			<input type="button" name="verify" id="verify" value="Verify" />
-		</form>
 	</div>
 </div>
 

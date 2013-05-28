@@ -4,7 +4,6 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <title>Sign Up - The Honeycomb</title>
 
-<!-- <base href="#" /> -->
 <script type="text/javascript" src="includes/jscript/jquery.js"></script>
 
 <!-- Begin of Alex Veit's functions -->
@@ -87,12 +86,13 @@ $(function () );
 				<span class="icon-bar"></span>
 			</a>
 
-			<a class="brand" href="/">Honeycomb, Inc.</a>
+			<a class="brand" href="index.html">Honeycomb, Inc.</a>
 
 			<div class="nav-collapse">
 
 				<ul class="nav pull-right">
-					<li><a href="/">Home</a></li>
+					<li><a href="index.html">Home</a></li>
+					
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In&nbsp;<b class="caret"></b></a>
 						<ul class="dropdown-menu">
@@ -103,7 +103,6 @@ $(function () );
 						</ul>
 					</li>
 				</ul>
-
 			</div><!--/.nav-collapse -->	
 		</div> <!-- /container -->
 	</div> <!-- /navbar-inner -->
@@ -131,9 +130,17 @@ $(function () );
 							<div class="row">
 								<div class="multicol">
 									<div class="control-group">
-										<label class="control-label bold" for="name">Name</label>
+										<label class="control-label bold" for="name">First Name</label>
 										<div class="controls">
-											<input class="input-xlarge" type="text" name="name" id="name" value="" />
+											<input class="input-xlarge" type="text" name="fname" id="fname" value="" />
+										</div>
+									</div>
+								</div>
+								<div class="multicol">
+									<div class="control-group">
+										<label class="control-label bold" for="name">Last Name</label>
+										<div class="controls">
+											<input class="input-xlarge" type="text" name="lname" id="lname" value="" />
 										</div>
 									</div>
 								</div>
@@ -162,8 +169,8 @@ $(function () );
 										<label class="control-label bold" for="name">Type of Account</label>
 										<div class="controls">
 											<select name="deptid">
-												<option value="2">Standard</option>
-												<option value="5">Administration</option>
+												<option value="2">Student</option>
+												<option value="1">Professor/Admin</option>
 											</select>
 										</div>
 									</div>
@@ -203,15 +210,15 @@ $(function () );
 	</div> <!-- /extra -->
 
 	<div id="footer">
-	<div class="inner">
-		<div class="container">
-			<div class="row">
-				<div id="footer-copyright" class="span4">&copy;</div> <!-- /span4 -->
-				<div id="footer-terms" class="span8"></div> <!-- /span8 -->
-			</div> <!-- /row -->
-		</div> <!-- /container -->
-	</div> <!-- /inner -->
-</div> <!-- /footer -->
+		<div class="inner">
+			<div class="container">
+				<div class="row">
+					<div id="footer-copyright" class="span4">&copy;</div> <!-- /span4 -->
+					<div id="footer-terms" class="span8"></div> <!-- /span8 -->
+				</div> <!-- /row -->
+			</div> <!-- /container -->
+		</div> <!-- /inner -->
+	</div> <!-- /footer -->
 </div>
 
 </body>

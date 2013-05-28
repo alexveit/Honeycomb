@@ -1,43 +1,45 @@
-
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title>Login Page</title>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>Login Page</title>
 
-    <base href="#" />
-    <script type="text/javascript" src="includes/jscript/jquery.js"></script>
-    
+<!-- Begin of Alex Veit's functions -->
+<script type="text/javascript" src="alexfunctions.js"></script>
+<!-- End of Alex Veit's functions -->
 
-<script type="text/javascript">
- 
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-23970959-1']);
-  _gaq.push(['_setDomainName', '.ssdnodes.com']);
-  _gaq.push(['_setAllowHash', 'false']);
-  _gaq.push(['_trackPageview']);
-  _gaq.push(['_trackPageLoadTime']);
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
- 
+<script type="text/javascript" src="includes/jscript/jquery.js"></script>
+<script src="jswhmcs.js"></script>
+<script src="jquery-1.7.2.min.js"></script>	
+<script src="jquerylightboxmin.js"></script>
+<script src="bootstrap.js"></script>
+<script src="bootstrap-tab.js"></script>
+<script src="bootstrap-tooltip.js"></script>
+<script>
+$(function () );
 </script>
 
+<script type="text/javascript">
 
-    
+var _gaq = _gaq || [];
+_gaq.push(['_setAccount', 'UA-23970959-1']);
+_gaq.push(['_setDomainName', '.ssdnodes.com']);
+_gaq.push(['_setAllowHash', 'false']);
+_gaq.push(['_trackPageview']);
+_gaq.push(['_trackPageLoadTime']);
+(function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+})();
 
-<meta name="viewport"
-content="width=device-width,
-initial-scale=1.0, maximum-scale=1.0,
-user-scalable=no">
+</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 
-<link href="manage-bootstrap.css" rel="stylesheet">
-<link href="whmcs.css" rel="stylesheet">
-<script src="jswhmcs.js"></script>
-
+<link href="templates/ssdnodes512/css/manage-bootstrap.css" rel="stylesheet">
+<link href="templates/ssdnodes512/css/whmcs.css" rel="stylesheet">
 <link href="bootstrap.css" rel="stylesheet">
 <link href="bootstrap-responsive.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,600italic,400,600" rel="stylesheet">
@@ -45,9 +47,9 @@ user-scalable=no">
 <link href="ssdnodes.css" rel="stylesheet">
 <link href="ssdnodes-responsive.css" rel="stylesheet">
 <link href="greentheme.css" rel="stylesheet">
-  </head>
+</head>
 
-  <body>
+<body>
 
 <div class="navbar navbar-fixed-top">
 	<div class="navbar-inner">
@@ -58,23 +60,23 @@ user-scalable=no">
 				<span class="icon-bar"></span>
 			</a>
 
-			<a class="brand" href="logo_new"></a>
+			<a class="brand" href="index.html">Honeycomb, Inc.</a>
 
 			<div class="nav-collapse">
 
-			<ul class="nav pull-right">
-			<li><a href="honeycomb.html">Home</a></li>
-			
-				<li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In&nbsp;<b class="caret"></b></a>
-			  <ul class="dropdown-menu">
-				<li><a href="Loginpage.html">Teacher Account</a></li>
-				<li><a href="Loginpage.html">Student Account</a></li>
-				<li class="divider"></li>
-				<li><a href="forgotpassword.html">Forgot Password?</a></li>
-			  </ul>
-			</li>
-			</ul>
+				<ul class="nav pull-right">
+					<li><a href="index.html">Home</a></li>
 
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In&nbsp;<b class="caret"></b></a>
+						<ul class="dropdown-menu">
+							<li><a href="Loginpage.html">Teacher Account</a></li>
+							<li><a href="Loginpage.html">Student Account</a></li>
+							<li class="divider"></li>
+							<li><a href="forgotpassword.html">Forgot Password?</a></li>
+						</ul>
+					</li>
+				</ul>
 			</div><!--/.nav-collapse -->	
 		</div> <!-- /container -->
 	</div> <!-- /navbar-inner -->
@@ -91,82 +93,53 @@ user-scalable=no">
 <div id="subpage">	
 	<div class="container">
 		<div class="row">
-		<div class="span12">
+			<div class="span12">
+				<div class="whmcscontainer">
+					<div class="contentpadded">						<div class="halfwidthcontainer">
+							<div class="page-header">
+								<div class="styled_title"><h1>Login</h1></div>
+							</div>
+							<form method="post" onsubmit="return validateLogin()" action="welcome.php" class="form-stacked" name="frmlogin">
+								<div class="logincontainer">
+									<fieldset class="control-group">
+										<div class="control-group">
+											<label class="control-label" for="username">Email Address:</label>
+											<div class="controls">
+												<input class="input-xlarge" name="username" id="username" type="text" />
+											</div>
+										</div>
 
+										<div class="control-group">
+											<label class="control-label" for="password">Password:</label>
+											<div class="controls">
+											<input class="input-xlarge" name="password" id="password" type="password"/>
+											</div>
+										</div>
 
+										<div>
+											<div class="loginbtn"><input type="submit" class="btn btn-primary btn-large" value="Login" /></div>
+											<div class="rememberme"><input type="checkbox" name="rememberme" /> <strong>Remember Me</strong></div>
+											<br />
+											<br />
+											<p><a href="pwreset.php">Request a Password Reset</a></p>
+										</div>
+									</fieldset>
+								</div>
+							</form>
 
-
-<div class="whmcscontainer">
-    <div class="contentpadded">
-
-<div class="halfwidthcontainer">
-
-<div class="page-header">
-    <div class="styled_title"><h1>Login</h1></div>
-</div>
-
-<form method="post" action="#" class="form-stacked" name="frmlogin">
-
-<div class="logincontainer">
-
-    <fieldset class="control-group">
-
-	    <div class="control-group">
-		    <label class="control-label" for="username">Email Address:</label>
-			<div class="controls">
-			    <input class="input-xlarge" name="username" id="username" type="text" />
+							<script language="javascript">
+							document.frmlogin.username.focus();
+							</script>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-
-		<div class="control-group">
-		    <label class="control-label" for="password">Password:</label>
-			<div class="controls">
-			    <input class="input-xlarge" name="password" id="password" type="password"/>
-			</div>
-		</div>
-
-        <div align="center">
-		  <div class="loginbtn"><input type="submit" class="btn btn-primary btn-large" value="Login" /></div>
-          <div class="rememberme"><input type="checkbox" name="rememberme" /> <strong>Remember Me</strong></div>
-          <br />
-          <br />
-          <p><a href="pwreset.php">Request a Password Reset</a></p>
-        </div>
-
-	</fieldset>
-
-</div>
-
-</form>
-
-<script language="javascript">
-document.frmlogin.username.focus();
-</script>
-
+	</div>
 </div>
 
 
-
-
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-
-
-		                    <ul class="footer-links clearfix">
-		                       
-<script src="jquery-1.7.2.min.js"></script>	
-<script src="jquerylightboxmin.js"></script>
-<script src="bootstrap.js"></script>
-<script src="bootstrap-tab.js"></script>
-<script src="bootstrap-tooltip.js"></script>
-<script>
-$(function () );
-</script>
+<ul class="footer-links clearfix">
 
 </body>
 </html>
