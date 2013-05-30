@@ -41,12 +41,12 @@ function validateForm()
 		return false;
 	}
 	
-	if(!is_valid_spsu_email(document.getElementById('email').value))
+	/*if(!is_valid_spsu_email(document.getElementById('email').value))
 	{
 		alert("Invalid Email\nMust be @spsu.edu email");
 		document.getElementById('email').focus();
 		return false;
-	}
+	}*/
 	
 	if(isWhitespaceNotEmpty(document.getElementById('pass').value))
 	{
@@ -67,12 +67,12 @@ function validateLogin()
 		return false;
 	}
 	
-	if(!is_valid_spsu_email(document.getElementById('username').value))
+	/*if(!is_valid_spsu_email(document.getElementById('username').value))
 	{
 		alert("Invalid Email\nMust be @spsu.edu email");
 		document.getElementById('username').focus();
 		return false;
-	}
+	}*/
 	
 	if(isWhitespaceNotEmpty(document.getElementById('password').value))
 	{

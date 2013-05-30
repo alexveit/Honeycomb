@@ -1,4 +1,5 @@
 <?php
+
 /*
 $email = $_POST['email'];
 
@@ -10,8 +11,6 @@ $mailheader = "From: $email \r\n";
 
 mail($recipient, $subject, $formcontent, $mailheader) or die("Error!");
 */
-
-//require ('user.php');
 
 $val = "id=" . $_SESSION['id'] . "&";
 $val .= "first=" . $_SESSION['first'] . "&";

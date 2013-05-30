@@ -4,6 +4,31 @@ require_once ('user.php');
 
 $user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
 
+if (isset($_POST['upload']))//has form been submitted
+{
+	//pull out file information from temp location on server
+	$tmp_name = $_FILES['uploadedfile']['tmp_name'];
+	$filetype = $_FILES['uploadedfile']['type'];
+	$filesize = $_FILES['uploadedfile']['size'];
+	$filename = $_FILES['uploadedfile']['name'];
+	
+	//extract the file data
+	$data = fopen($tmp_name, 'rb');
+	$data = fread ($data, $filesize);
+	$data = addslashes($data); //adding slashes so it doesnot break anything
+	
+	$con = get_db_connection();
+	
+	//send to database
+	$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
+				VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
+	$result = mysqli_query($con,$query);
+	if ($result)
+		echo "File has been successfuly uploaded";
+	else
+		echo "Error: File not uploaded";
+}
+
 ?>
 
 <html>
@@ -79,50 +104,11 @@ $user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION[
 				<h2>Wealcome back <?php echo $user->get_first_last(); ?> </h2>
 				<br>
 				<div>
-					<div style="position:relative; left:50%;">
-						<form enctype='multipart/form-data' name='fileupload' action='gooduser.php?<?php echo $val ?>' method='POST'>
+					<div style="position:relative; left:70%;">
+						<form enctype='multipart/form-data' name='fileupload' action='gooduser.php' method='POST'>
 							<input type='file' name='uploadedfile'></br>
 							<input class="btn btn-primary" type='submit' name='upload' value='Upload File'>
 						</form>
-					</div>
-					<div style="position:relative; top:-100px">
-						<?php
-
-						//require ('connect.php'); //connect to database
-
-						$server = "localhost";
-						$username = "root";
-						//$password = "christelle11";
-						$password = "al19862411ex";
-						$database = "test";
-
-						mysql_connect ("$server", "$username", "$password") or die (mysql_error());
-						mysql_select_db ("$database") or die (mysql_error());
-
-						//$query = "SELECT * id, filename, filesize, filetype FROM files";
-						$query = "SELECT id, user_id, folder_id, filename, filesize, filetype FROM files";
-						$result = mysql_query ($query);
-
-						echo "
-						<table border='1' style='width:500px'>
-							<tr><th>ID</th> <th>UserID</th> <th>Folder</th> <th>Name</th> <th>Size(bytes)</th> <th>Type</th></tr>";
-							/*while	($row = mysql_fetch_object ($result))
-							{
-								echo 	"<tr>
-											<td style='text-align:center'>$row->id</td>
-											<td style='text-align:center'>$row->user_id</td>
-											<td style='text-align:center'>$row->folder_id</td>
-											<td style='text-align:center'>$row->filename</td>
-											<td style='text-align:center'>$row->filesize</td>
-											<td style='text-align:center'><a href='download.php?id=$row->id'>Download</a></td>
-										</tr>";
-							}*/
-							
-						echo "</table>";
-
-
-
-						?>
 					</div>
 				</div>
 			</div>

@@ -13,22 +13,6 @@ class User
 	public $verified;
 	public $code;
 	
-	public function get_id() { return $this->id; }
-	
-	public function get_first() { return $this->first; }
-	
-	public function get_last() { return $this->last; }
-	
-	public function get_email() { return $this->email; }
-	
-	public function get_pw() { return $this->pw; }
-	
-	public function get_type() { return $this->user_type; }
-	
-	public function get_verified() { return $this->verified; }
-	
-	public function get_code() { return $this->code; }
-	
 	public function good_code($code) { return $this->code == $code; }
 	
 	public function set_db_verified()

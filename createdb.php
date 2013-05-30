@@ -1,4 +1,5 @@
 <?php
+session_start();
 $con=mysqli_connect("example.com","peter","abc123");
 // Check connection
 if (mysqli_connect_errno())
