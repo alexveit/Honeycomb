@@ -1,30 +1,6 @@
 <?php
 
-$query = "SELECT * FROM users WHERE email='" . $_POST['username'] . "';";
-
-//echo $_POST['username'] . "<br>";
-
-//echo $query . "<br>";;
-
-$server = "localhost";
-$username = "root";
-//$password = "christelle11";
-$password = "al19862411ex";
-$database = "test";
-
-$con = mysqli_connect($server,$username,$password,$database);
-
-// Check connection
-if (mysqli_connect_errno($con))
-{
-	echo "Failed to connect to MySQL: " . mysqli_connect_error();
-	return;
-}
-
-//echo $ins;
-
-$result = mysqli_query($con,$query);
-
+require_once ('connection.php');
 
 function goodUser($row)
 {
@@ -35,6 +11,7 @@ function goodUser($row)
 	$_SESSION['pw'] = $row['pw'];
 	$_SESSION['user_type'] = $row['user_type'];
 	$_SESSION['verified'] = $row['verified'];
+	$_SESSION['verify_code'] = $row['verify_code'];
 	include ('gooduser.php');
 }
 
@@ -53,16 +30,40 @@ function badPw($row)
 	$_SESSION['pw'] = $row['pw'];
 	$_SESSION['user_type'] = $row['user_type'];
 	$_SESSION['verified'] = $row['verified'];
+	$_SESSION['verify_code'] = $row['verify_code'];
 	include ('badpw.php');
 }
 
+function pleaseVerify($row)
+{
+	$_SESSION['id'] = $row['id'];
+	$_SESSION['first'] = $row['first'];
+	$_SESSION['last'] = $row['last'];
+	$_SESSION['email'] = $row['email'];
+	$_SESSION['pw'] = $row['pw'];
+	$_SESSION['user_type'] = $row['user_type'];
+	$_SESSION['verified'] = $row['verified'];
+	$_SESSION['verify_code'] = $row['verify_code'];
+	include ('goodsignup.php');
+}
+
+$con = get_db_connection();
+
+$query = "SELECT * FROM users WHERE email='" . $_POST['username'] . "';";
+
+$result = mysqli_query($con,$query);
+
+mysqli_close($con);
 
 if ($result && $result->num_rows == 1)
 {
 	$row = mysqli_fetch_array($result);
 	if($row['pw'] == $_POST['password'])
 	{
-		goodUser($row);
+		if($row['verified'] == 1)
+			goodUser($row);
+		else
+			pleaseVerify($row);
 	}
 	else
 	{
@@ -73,7 +74,5 @@ else
 {
 	badUser();
 }
-
-mysqli_close($con);
 
 ?>

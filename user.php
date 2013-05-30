@@ -1,14 +1,17 @@
 <?php
 
+require_once ('connection.php');
+
 class User
 {
-	private $id;
-	private $first;
-	private $last;
-	private $email;
-	private $pw;
-	private $user_type;
-	private $verified;
+	public $id;
+	public $first;
+	public $last;
+	public $email;
+	public $pw;
+	public $user_type;
+	public $verified;
+	public $code;
 	
 	public function get_id() { return $this->id; }
 	
@@ -24,7 +27,23 @@ class User
 	
 	public function get_verified() { return $this->verified; }
 	
-	public function __construct($id,$fir,$lst,$eml,$pw,$type)
+	public function get_code() { return $this->code; }
+	
+	public function good_code($code) { return $this->code == $code; }
+	
+	public function set_db_verified()
+	{
+		$con = get_db_connection();
+		if($con)
+		{
+			$update = "UPDATE users SET verified=1 WHERE id=" . $this->id . ";";
+			mysqli_query($con,$update);
+			return true;
+		}
+		return false;
+	}
+	
+	public function __construct($id,$fir,$lst,$eml,$pw,$type,$ver,$code)
 	{
 		$this->id = $id;
 		$this->first = $fir;
@@ -44,37 +63,21 @@ class User
 			$this->user_type = 3;
 			break;
 		}
-		$this->verified = true;
-	}
-	
-	private function connect_to_db()
-	{
-		$server = "localhost";
-		$username = "root";
-		//$password = "christelle11";
-		$password = "al19862411ex";
-		$database = "test";
-		
-		$con = mysqli_connect($server,$username,$password,$database);
-
-		// Check connection
-		if (mysqli_connect_errno($con))
-		{
-			echo "Failed to connect to MySQL: " . mysqli_connect_error();
-			return false;
-		}
-		
-		return $con;
+		$this->verified = $ver;
+		$this->code = $code;
 	}
 	
 	public function add_to_db()
 	{
-		$con = $this->connect_to_db();
+		$con = get_db_connection();
 		if($con)
 		{
-			$fields = "first, last, email, pw, user_type, verified";
 			
-			$vals = "'" . $this->first . "', '" . $this->last . "', '" . $this->email . "', '" . $this->pw . "', " . $this->user_type . ", " . $this->verified;
+			$this->code = rand(10000,99999);
+			$fields = "first, last, email, pw, user_type, verified, verify_code";
+			
+			$vals = "'" . $this->first . "', '" . $this->last . "', '" . $this->email;
+			$vals .= "', '" . $this->pw . "', " . $this->user_type . ", " . $this->verified . ", '" . $this->code . "'";
 			
 			$ins = "INSERT INTO users (" . $fields . ") VALUES (" . $vals . ");";
 			
@@ -82,19 +85,36 @@ class User
 			
 			$result = mysqli_query($con,$ins);
 			
+			if(!$result)
+			{
+				mysqli_close($con);
+				return false;
+			}
 			
-			/*if ($result)
-				echo "User has been added to db";
-			else
-				echo "Error:";*/
-
+			$idsel = "SELECT id FROM users ORDER BY id DESC LIMIT 1;";
+			
+			$result = mysqli_query($con,$idsel);
+			
+			if(!$result)
+			{
+				mysqli_close($con);
+				return false;
+			}
+			
+			$row = mysqli_fetch_array($result);
+			
+			$this->id = $row['id'];
+			
 			mysqli_close($con);
+			
+			return true;
 		}
+		return false;
 	}
 	
 	public function contains_in_db()
 	{
-		$con = $this->connect_to_db();
+		$con = get_db_connection();
 		$contains = false;
 		if($con)
 		{

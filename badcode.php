@@ -1,34 +1,6 @@
-<?php
-/*
-$email = $_POST['email'];
-
-$recipient = "alex.wveit@gmail.com";
-$subject = "Dropbox Verification Email";
-
-$formcontent = "Test Content";
-$mailheader = "From: $email \r\n";
-
-mail($recipient, $subject, $formcontent, $mailheader) or die("Error!");
-*/
-
-//require ('user.php');
-
-$val = "id=" . $_SESSION['id'] . "&";
-$val .= "first=" . $_SESSION['first'] . "&";
-$val .= "last=" . $_SESSION['last'] . "&";
-$val .= "email=" . $_SESSION['email'] . "&";
-$val .= "pw=" . $_SESSION['pw'] . "&";
-$val .= "user_type=" . $_SESSION['user_type'] . "&";
-$val .= "verified=" . $_SESSION['verified'] . "&";
-$val .= "verify_code=" . $_SESSION['verify_code'];
-
-//echo $val;
-
-?>
-
 <html>
 <head>
-<title>Thank You! - The Honeycomb</title>
+<title>Weccome! - The Honeycomb</title>
 
 <link href="templates/ssdnodes512/css/manage-bootstrap.css" rel="stylesheet">
 <link href="templates/ssdnodes512/css/whmcs.css" rel="stylesheet">
@@ -102,16 +74,10 @@ $val .= "verify_code=" . $_SESSION['verify_code'];
 	<div class="container">
 		<div class="page-header">
 			<div class="styled_title">
-				<?php echo "<h2>Thank you for Signing Up " . $_SESSION['first'] . " " . $_SESSION['last'] . "</h2>"; ?>
-				<br />
-				<h1>Almost done!</h1>
-				<p>An account confirmation email has been sent to <?php echo $_SESSION['email'] ?></p>
+				
+				<h2>Invalid activation code for <?php echo $_SESSION['email'] ?></h2>
 			</div>
 		</div>
-		<form method="post" action="verify.php?<?php echo $val ?>" name="verify">
-			Confirmation Code: <input class="input-small" type="text" name="code" id="code" value="" />
-			<input class="btn btn-primary" type="submit" name="verify" id="verify" value="Verify" />
-		</form>
 	</div>
 </div>
 
