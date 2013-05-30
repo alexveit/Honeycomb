@@ -74,15 +74,16 @@ $val .= "verify_code=" . $_SESSION['verify_code'];
 
 				<ul class="nav pull-right">
 					<li><a href="index.html">Home</a></li>
-					<li class="dropdown">
+					<li><a href="loginpage.html">Log In</a></li>
+					<!-- <li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#">Log In&nbsp;<b class="caret"></b></a>
 						<ul class="dropdown-menu">
-							<li><a href="loginpage.html">Teacher Account</a></li>
-							<li><a href="loginpage.html">Student Account</a></li>
+							<li><a href="loginpage.html">Teacher Account </a></li>
+							<li><a href="loginpage.html">Student Account </a></li>
 							<li class="divider"></li>
 							<li><a href="forgotpassword.html">Forgot Password?</a></li>
 						</ul>
-					</li>
+					</li> -->
 				</ul>
 
 			</div><!--/.nav-collapse -->	

@@ -2,99 +2,8 @@
 
 require_once ('user.php');
 
-$user;
-$val;
-if(isset($_SESSION['id']))
-{
-	global $user;
-	
-	global $val;
-	
-	$val = "id=" . $_SESSION['id'] . "&";
-	$val .= "first=" . $_SESSION['first'] . "&";
-	$val .= "last=" . $_SESSION['last'] . "&";
-	$val .= "email=" . $_SESSION['email'] . "&";
-	$val .= "pw=" . $_SESSION['pw'] . "&";
-	$val .= "user_type=" . $_SESSION['user_type'] . "&";
-	$val .= "verified=" . $_SESSION['verified'] . "&";
-	$val .= "verify_code=" . $_SESSION['verify_code'];
-	$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
-}
-else
-{
-	global $user;
-	
-	global $val;
-	
-	$val = "id=" . $_GET['id'] . "&";
-	$val .= "first=" . $_GET['first'] . "&";
-	$val .= "last=" . $_GET['last'] . "&";
-	$val .= "email=" . $_GET['email'] . "&";
-	$val .= "pw=" . $_GET['pw'] . "&";
-	$val .= "user_type=" . $_GET['user_type'] . "&";
-	$val .= "verified=" . $_GET['verified'] . "&";
-	$val .= "verify_code=" . $_GET['verify_code'];
-	
-	$user = new User($_GET['id'],$_GET['first'],$_GET['last'],$_GET['email'],$_GET['pw'],$_GET['user_type'],$_GET['verified'], $_GET['verify_code']);
-}
+$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
 
-/*require_once ('folder.php');
-
-$folders = get_folder_array($user->id);*/
-
-require_once ('connection.php');
-
-//$con = get_db_connection();
-
-function DataProcessingFunction()
-{
-	if (isset($_POST['upload']))//has form been submitted
-	{
-		//pull out file information from temp location on server
-		$tmp_name = $_FILES['uploadedfile']['tmp_name'];
-		$filetype = $_FILES['uploadedfile']['type'];
-		$filesize = $_FILES['uploadedfile']['size'];
-		$filename = $_FILES['uploadedfile']['name'];
-		
-		//extract the file data
-		$data = fopen($tmp_name, 'rb');
-		$data = fread ($data, $filesize);
-		$data = addslashes($data); //adding slashes so it doesnot break anything
-		
-		global $user;
-		
-		//send to database
-		$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
-					VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
-					
-		//echo $query;
-		
-		$server = "localhost";
-		$username = "root";
-		//$password = "christelle11";
-		$password = "al19862411ex";
-		$database = "test";
-
-		mysql_connect ("$server", "$username", "$password") or die (mysql_error());
-		mysql_select_db ("$database") or die (mysql_error());
-		
-		$result = mysql_query ($query);
-	}
-}
-
-DataProcessingFunction();
-/*
-if (isset($_POST['upload']))
-{
-	$DataProcessed = DataProcessingFunction();
-}
-
-if (isset($DataProcessed) && $DataProcessed)
-{
-  header("Location: gooduser.php?$val");
-  exit();
-}
-*/
 ?>
 
 <html>
@@ -197,7 +106,7 @@ if (isset($DataProcessed) && $DataProcessed)
 						echo "
 						<table border='1' style='width:500px'>
 							<tr><th>ID</th> <th>UserID</th> <th>Folder</th> <th>Name</th> <th>Size(bytes)</th> <th>Type</th></tr>";
-							while	($row = mysql_fetch_object ($result))
+							/*while	($row = mysql_fetch_object ($result))
 							{
 								echo 	"<tr>
 											<td style='text-align:center'>$row->id</td>
@@ -207,7 +116,7 @@ if (isset($DataProcessed) && $DataProcessed)
 											<td style='text-align:center'>$row->filesize</td>
 											<td style='text-align:center'><a href='download.php?id=$row->id'>Download</a></td>
 										</tr>";
-							}
+							}*/
 							
 						echo "</table>";
 
