@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once ('user.php');
 
 $user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);

@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 //require ('/karlcode/connect.php'); //connect to database
 
 $server = "localhost";
