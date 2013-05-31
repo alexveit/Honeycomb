@@ -2,31 +2,31 @@
 
 require_once ('user.php');
 
-$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
+$user;
 
-if (isset($_POST['upload']))//has form been submitted
+if(isset($_SESSION['id']))
 {
-	//pull out file information from temp location on server
-	$tmp_name = $_FILES['uploadedfile']['tmp_name'];
-	$filetype = $_FILES['uploadedfile']['type'];
-	$filesize = $_FILES['uploadedfile']['size'];
-	$filename = $_FILES['uploadedfile']['name'];
+	$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],
+		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
 	
-	//extract the file data
-	$data = fopen($tmp_name, 'rb');
-	$data = fread ($data, $filesize);
-	$data = addslashes($data); //adding slashes so it doesnot break anything
-	
-	$con = get_db_connection();
-	
-	//send to database
-	$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
-				VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
-	$result = mysqli_query($con,$query);
-	if ($result)
-		echo "File has been successfuly uploaded";
-	else
-		echo "Error: File not uploaded";
+	setcookie("id", $user->id, time()+600);
+	setcookie("first", $user->first, time()+600);
+	setcookie("last", $user->last, time()+600);
+	setcookie("email", $user->email, time()+600);
+	setcookie("pw", $user->pw, time()+600);
+	setcookie("user_type", $user->user_type, time()+600);
+	setcookie("verified", $user->verified, time()+600);
+	setcookie("verify_code", $user->code, time()+600);
+}
+else if(isset($_COOKIE['id']))
+{
+	$user = new User($_COOKIE['id'],$_COOKIE['first'],$_COOKIE['last'],$_COOKIE['email'],
+		$_COOKIE['pw'],$_COOKIE['user_type'],$_COOKIE['verified'],$_COOKIE['verify_code']);
+}
+else
+{
+	include ('index.html');
+	exit();
 }
 
 ?>
@@ -104,11 +104,78 @@ if (isset($_POST['upload']))//has form been submitted
 				<h2>Wealcome back <?php echo $user->get_first_last(); ?> </h2>
 				<br>
 				<div>
-					<div style="position:relative; left:70%;">
-						<form enctype='multipart/form-data' name='fileupload' action='gooduser.php' method='POST'>
-							<input type='file' name='uploadedfile'></br>
-							<input class="btn btn-primary" type='submit' name='upload' value='Upload File'>
-						</form>
+					<div>
+						<table border="0">
+							<tr>
+								<?php
+									$con = get_db_connection();
+									$good = false;
+									if (isset($_POST['upload']))//has form been submitted
+									{
+										//pull out file information from temp location on server
+										$tmp_name = $_FILES['uploadedfile']['tmp_name'];
+										$filetype = $_FILES['uploadedfile']['type'];
+										$filesize = $_FILES['uploadedfile']['size'];
+										$filename = $_FILES['uploadedfile']['name'];
+										
+										//extract the file data
+										$data = fopen($tmp_name, 'rb');
+										$data = fread ($data, $filesize);
+										$data = addslashes($data); //adding slashes so it doesnot break anything
+										
+										$con = get_db_connection();
+										
+										//send to database
+										$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
+													VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
+													
+										$result = mysqli_query($con,$query);
+										
+										if($result)
+											$good = true;
+										
+									}
+									
+									$query = "SELECT id, folder_id, filename, filesize, filetype FROM files WHERE user_id=$user->id";
+									
+									$result = mysqli_query($con,$query);
+									
+									echo "
+									<td style='vertical-align:text-top;'><table border='0' style='width:500px;'>
+										<tr><th>ID</th> <th>Folder</th> <th>Name</th> <th>Size(bytes)</th> <th>Type</th></tr>";
+										while	($row = mysqli_fetch_array($result))
+										{
+											echo "<tr>";
+											echo "<td style='text-align:center'>" . $row['id'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['folder_id'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['filename'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['filesize'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['filetype'] . "</td>";
+											echo "<td style='text-align:center'><a href='download.php?id=" .$row['id'] ."'>Download</a></td>";
+											echo "</tr>";
+										}
+
+									echo "</table></td>";
+									mysqli_close($con);
+								?>
+								<td style="width:50px"></td>
+								<td style='vertical-align:text-top;'>
+									<form enctype='multipart/form-data' name='fileupload' action='gooduser.php' method='POST'>
+										<input style="text-align:right;" type='file' name='uploadedfile'></br>
+										<input class="btn btn-primary" type='submit' name='upload' value='Upload File'>
+									</form>
+									<?php
+									if ($good)
+										echo "<b>$filename</b><br><i>has been successfuly uploaded</i>";
+									else
+										echo "Error: <b>$filename</b><br><i>not uploaded</i>";
+									?>
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div style="position:absolute; top:100px;">
+						
 					</div>
 				</div>
 			</div>
