@@ -1,7 +1,7 @@
 
 <html>
 <head>
-<title>Weccome! - The Honeycomb</title>
+<title>Sorry - The Honeycomb</title>
 
 <link href="templates/ssdnodes512/css/manage-bootstrap.css" rel="stylesheet">
 <link href="templates/ssdnodes512/css/whmcs.css" rel="stylesheet">
@@ -77,6 +77,7 @@
 		<div class="page-header">
 			<div class="styled_title">
 				<h2>Invalid email: <?php echo $_SESSION['email'] ?></h2>
+				<p class="landing-actions"><a href="Signup.html" class="btn btn-large btn-inverse">Sign Up</a></p>
 			</div>
 		</div>
 	</div>

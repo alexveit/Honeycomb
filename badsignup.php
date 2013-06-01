@@ -1,7 +1,7 @@
 
 <html>
 <head>
-<title>Thank You! - The Honeycomb</title>
+<title>Sorry - The Honeycomb</title>
 
 <link href="templates/ssdnodes512/css/manage-bootstrap.css" rel="stylesheet">
 <link href="templates/ssdnodes512/css/whmcs.css" rel="stylesheet">
