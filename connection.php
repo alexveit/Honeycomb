@@ -19,4 +19,16 @@ function get_db_connection()
 	
 	return $con;
 }
+
+function connect()
+{
+	$server = "localhost";
+	$username = "root";
+	//$password = "christelle11";
+	$password = "al19862411ex";
+	$database = "test";
+
+	mysql_connect ("$server", "$username", "$password") or die (mysql_error());
+	mysql_select_db ("$database") or die (mysql_error());
+}
 ?>

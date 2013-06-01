@@ -17,12 +17,12 @@ if (isset($_POST['upload']))//has form been submitted
 	$data = fread ($data, $filesize);
 	$data = addslashes($data); //adding slashes so it doesnot break anything
 	
-	$con = get_db_connection();
+	connect();
 	
 	//send to database
 	$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
 				VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
-	$result = mysqli_query($con,$query);
+	$result = mysql_query ($query);
 	if ($result)
 		echo "File has been successfuly uploaded";
 	else
