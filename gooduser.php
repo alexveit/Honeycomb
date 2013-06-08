@@ -7,8 +7,30 @@ $user;
 if(isset($_SESSION['id']))
 {
 	$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],
+<<<<<<< HEAD
 		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code'],$_SESSION['root_dir']);
 
+=======
+		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
+	
+<<<<<<< HEAD
+	//extract the file data
+	$data = fopen($tmp_name, 'rb');
+	$data = fread ($data, $filesize);
+	$data = addslashes($data); //adding slashes so it doesnot break anything
+	
+	connect();
+	
+	//send to database
+	$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
+				VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
+	$result = mysql_query ($query);
+	if ($result)
+		echo "File has been successfuly uploaded";
+	else
+		echo "Error: File not uploaded";
+=======
+>>>>>>> parent of 533f176... good good
 	setcookie("id", $user->id, time()+600);
 	setcookie("first", $user->first, time()+600);
 	setcookie("last", $user->last, time()+600);
@@ -28,6 +50,7 @@ else
 {
 	include ('index.html');
 	exit();
+>>>>>>> 2bc9263db0a1826f3c3fa9f09e9a89456805ecd0
 }
 
 ?>
@@ -110,11 +133,12 @@ else
 							<tr>
 								<?php
 									$con = get_db_connection();
-
+									$good = false;
 									if (isset($_POST['upload']))//has form been submitted
 									{
 										//pull out file information from temp location on server
 										$tmp_name = $_FILES['uploadedfile']['tmp_name'];
+<<<<<<< HEAD
 										
 										
 											if (move_uploaded_file($_FILES['uploadedfile']['tmp_name'], "C:/xampp/htdocs/files_upload/files/veit38/". basename($_FILES['uploadedfile']['name'])))
@@ -166,6 +190,50 @@ else
 										";
 										
 									/************file structure ends here************/
+=======
+										$filetype = $_FILES['uploadedfile']['type'];
+										$filesize = $_FILES['uploadedfile']['size'];
+										$filename = $_FILES['uploadedfile']['name'];
+										
+										//extract the file data
+										$data = fopen($tmp_name, 'rb');
+										$data = fread ($data, $filesize);
+										$data = addslashes($data); //adding slashes so it doesnot break anything
+										
+										$con = get_db_connection();
+										
+										//send to database
+										$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
+													VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
+													
+										$result = mysqli_query($con,$query);
+										
+										if($result)
+											$good = true;
+										
+									}
+									
+									$query = "SELECT id, folder_id, filename, filesize, filetype FROM files WHERE user_id=$user->id";
+									
+									$result = mysqli_query($con,$query);
+									
+									echo "
+									<td style='vertical-align:text-top;'><table border='0' style='width:500px;'>
+										<tr><th>ID</th> <th>Folder</th> <th>Name</th> <th>Size(bytes)</th> <th>Type</th></tr>";
+										while	($row = mysqli_fetch_array($result))
+										{
+											echo "<tr>";
+											echo "<td style='text-align:center'>" . $row['id'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['folder_id'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['filename'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['filesize'] . "</td>";
+											echo "<td style='text-align:center'>" . $row['filetype'] . "</td>";
+											echo "<td style='text-align:center'><a href='download.php?id=" .$row['id'] ."'>Download</a></td>";
+											echo "</tr>";
+										}
+
+									echo "</table></td>";
+>>>>>>> parent of 533f176... good good
 									mysqli_close($con);
 								?>
 								<td style="width:50px"></td>
@@ -175,13 +243,10 @@ else
 										<input class="btn btn-primary" type='submit' name='upload' value='Upload File'>
 									</form>
 									<?php
-									if (isset($_POST['upload']))
-									{
-										if ($result)
-											echo "<b>$filename</b><br><i>has been successfuly uploaded</i>";
-										else
-											echo "Error: <b>$filename</b><br><i>not uploaded</i>";
-									}
+									if ($good)
+										echo "<b>$filename</b><br><i>has been successfuly uploaded</i>";
+									else
+										echo "Error: <b>$filename</b><br><i>not uploaded</i>";
 									?>
 								</td>
 							</tr>
