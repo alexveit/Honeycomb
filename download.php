@@ -38,5 +38,4 @@ mysql_close();
 die("No file ID given..."); 
 }
 
-
 ?>
