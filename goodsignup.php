@@ -19,10 +19,9 @@ $val .= "email=" . $_SESSION['email'] . "&";
 $val .= "pw=" . $_SESSION['pw'] . "&";
 $val .= "user_type=" . $_SESSION['user_type'] . "&";
 $val .= "verified=" . $_SESSION['verified'] . "&";
-$val .= "verify_code=" . $_SESSION['verify_code'] . "&";
-$val .= "root_dir=" . $_SESSION['root_dir'];
+$val .= "verify_code=" . $_SESSION['verify_code'];
 
-echo $val;
+//echo $val;
 
 ?>
 

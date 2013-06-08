@@ -12,7 +12,6 @@ class User
 	public $user_type;
 	public $verified;
 	public $code;
-	public $root_dir;
 	
 	public function good_code($code) { return $this->code == $code; }
 	
@@ -28,7 +27,7 @@ class User
 		return false;
 	}
 	
-	public function __construct($id,$fir,$lst,$eml,$pw,$type,$ver,$code,$root_dir)
+	public function __construct($id,$fir,$lst,$eml,$pw,$type,$ver,$code)
 	{
 		$this->id = $id;
 		$this->first = $fir;
@@ -50,7 +49,6 @@ class User
 		}
 		$this->verified = $ver;
 		$this->code = $code;
-		$this->root_dir = $root_dir;
 	}
 	
 	public function add_to_db()
@@ -90,30 +88,6 @@ class User
 			$row = mysqli_fetch_array($result);
 			
 			$this->id = $row['id'];
-			
-			$this->root_dir = $this->last . $this->id;
-			
-			$idsel = "UPDATE users SET root_dir='$this->root_dir' WHERE id=$this->id";
-			
-			$result = mysqli_query($con,$idsel);
-			
-			if(!$result)
-			{
-				mysqli_close($con);
-				return false;
-			}
-			
-			$path = "files/" + $this->root_dir;
-			
-			$idsel = "INSERT INTO root_dir (name, parth) VALUES('$this->root_dir', '$path')";
-			
-			$result = mysqli_query($con,$idsel);
-			
-			if(!$result)
-			{
-				mysqli_close($con);
-				return false;
-			}
 			
 			mysqli_close($con);
 			

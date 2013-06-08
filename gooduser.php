@@ -7,30 +7,8 @@ $user;
 if(isset($_SESSION['id']))
 {
 	$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],
-<<<<<<< HEAD
-		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code'],$_SESSION['root_dir']);
-
-=======
 		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
-	
-<<<<<<< HEAD
-	//extract the file data
-	$data = fopen($tmp_name, 'rb');
-	$data = fread ($data, $filesize);
-	$data = addslashes($data); //adding slashes so it doesnot break anything
-	
-	connect();
-	
-	//send to database
-	$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
-				VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
-	$result = mysql_query ($query);
-	if ($result)
-		echo "File has been successfuly uploaded";
-	else
-		echo "Error: File not uploaded";
-=======
->>>>>>> parent of 533f176... good good
+
 	setcookie("id", $user->id, time()+600);
 	setcookie("first", $user->first, time()+600);
 	setcookie("last", $user->last, time()+600);
@@ -39,18 +17,16 @@ if(isset($_SESSION['id']))
 	setcookie("user_type", $user->user_type, time()+600);
 	setcookie("verified", $user->verified, time()+600);
 	setcookie("verify_code", $user->code, time()+600);
-	setcookie("root_dir", $user->root_dir, time()+600);
 }
 else if(isset($_COOKIE['id']))
 {
 	$user = new User($_COOKIE['id'],$_COOKIE['first'],$_COOKIE['last'],$_COOKIE['email'],
-		$_COOKIE['pw'],$_COOKIE['user_type'],$_COOKIE['verified'],$_COOKIE['verify_code'],$_COOKIE['root_dir']);
+		$_COOKIE['pw'],$_COOKIE['user_type'],$_COOKIE['verified'],$_COOKIE['verify_code']);
 }
 else
 {
 	include ('index.html');
 	exit();
->>>>>>> 2bc9263db0a1826f3c3fa9f09e9a89456805ecd0
 }
 
 ?>
@@ -133,92 +109,38 @@ else
 							<tr>
 								<?php
 									$con = get_db_connection();
-									$good = false;
+
 									if (isset($_POST['upload']))//has form been submitted
 									{
 										//pull out file information from temp location on server
 										$tmp_name = $_FILES['uploadedfile']['tmp_name'];
-<<<<<<< HEAD
-										
-										
-											if (move_uploaded_file($_FILES['uploadedfile']['tmp_name'], "C:/xampp/htdocs/files_upload/files/veit38/". basename($_FILES['uploadedfile']['name'])))
-												echo "File has been successfuly uploaded";
-											else
-												echo "Error: File not uploaded";
-										
-									}
-
-									/*********file structure here**********/
-									echo " <h3> Directory content </h3>";
-									$query = "SELECT * FROM root_dir where name='$user->'";
-
-									//retrieving the root_dir content in db
-									if  ($result = mysqli_query($conn, $query)) 
-									{
-										if (mysqli_num_rows($result) == 1)
-										{
-											$object = mysqli_fetch_object($result);
-											$directory = $object->path;
-											$root_dir_name = $object->name;
-										}
-									}
-
-
-									//move to veit38 file dir
-									$files = glob($directory . "*");
-									chdir($directory);
-
-
-									echo"
-
-									<ol class='tree'>
-										
-										<li>
-											<label for='folder2'> " . $root_dir_name . "</label> <input type='checkbox' id='folder2' /> 
-												<ol>";
-												foreach ($files as $file)
-												{
-													$filelink = $directory . basename($file);
-													echo "<li class='file'><a href='$filelink'>". basename($file). " </a></li>";
-												}
-
-									echo "
-												</ol>
-										</li>
-										<li>
-									</ol>
-										";
-										
-									/************file structure ends here************/
-=======
 										$filetype = $_FILES['uploadedfile']['type'];
 										$filesize = $_FILES['uploadedfile']['size'];
 										$filename = $_FILES['uploadedfile']['name'];
-										
+
 										//extract the file data
 										$data = fopen($tmp_name, 'rb');
 										$data = fread ($data, $filesize);
 										$data = addslashes($data); //adding slashes so it doesnot break anything
-										
+
 										$con = get_db_connection();
-										
+
 										//send to database
 										$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
 													VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
-													
+
 										$result = mysqli_query($con,$query);
-										
-										if($result)
-											$good = true;
-										
+
+
+
 									}
-									
+
 									$query = "SELECT id, folder_id, filename, filesize, filetype FROM files WHERE user_id=$user->id";
-									
+
 									$result = mysqli_query($con,$query);
-									
+
 									echo "
-									<td style='vertical-align:text-top;'><table border='0' style='width:500px;'>
+									<td style='vertical-align:text-top;'><table border='0' style='width:600px;'>
 										<tr><th>ID</th> <th>Folder</th> <th>Name</th> <th>Size(bytes)</th> <th>Type</th></tr>";
 										while	($row = mysqli_fetch_array($result))
 										{
@@ -233,7 +155,6 @@ else
 										}
 
 									echo "</table></td>";
->>>>>>> parent of 533f176... good good
 									mysqli_close($con);
 								?>
 								<td style="width:50px"></td>
@@ -243,10 +164,13 @@ else
 										<input class="btn btn-primary" type='submit' name='upload' value='Upload File'>
 									</form>
 									<?php
-									if ($good)
-										echo "<b>$filename</b><br><i>has been successfuly uploaded</i>";
-									else
-										echo "Error: <b>$filename</b><br><i>not uploaded</i>";
+									if (isset($_POST['upload']))
+									{
+										if ($result)
+											echo "<b>$filename</b><br><i>has been successfuly uploaded</i>";
+										else
+											echo "Error: <b>$filename</b><br><i>not uploaded</i>";
+									}
 									?>
 								</td>
 							</tr>

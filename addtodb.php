@@ -14,7 +14,7 @@ mail($recipient, $subject, $formcontent, $mailheader) or die("Error!");
 
 require ('user.php');
 
-$user = new User(0,$_POST['fname'],$_POST['lname'],$_POST['email'],$_POST['pass'],$_POST['deptid'],0, 0, 0);
+$user = new User(0,$_POST['fname'],$_POST['lname'],$_POST['email'],$_POST['pass'],$_POST['deptid'],0, 0);
 
 if(!$user->contains_in_db())
 {
@@ -27,7 +27,6 @@ if(!$user->contains_in_db())
 	$_SESSION['user_type'] = $user->user_type;
 	$_SESSION['verified'] = $user->verified;
 	$_SESSION['verify_code'] = $user->code;
-	$_SESSION['root_dir'] = $user->root_dir;
 	include ('goodsignup.php');
 }
 else
