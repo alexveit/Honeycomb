@@ -81,7 +81,7 @@ else
 
 				<ul class="nav pull-right">
 					<li><a href="index.html">Home</a></li>
-					<li><a href="index.html">Log out</a></li>
+					<li><a href="logout.php">Log out</a></li>
 				</ul>
 
 			</div><!--/.nav-collapse -->	
