@@ -3,7 +3,9 @@ session_start();
 
 require_once ('user.php');
 
-$user = new User($_GET['id'],$_GET['first'],$_GET['last'],$_GET['email'],$_GET['pw'],$_GET['user_type'],$_GET['verified'], $_GET['verify_code']);
+$user = new User($_GET['id'],$_GET['first'],$_GET['last'],
+	$_GET['email'],$_GET['pw'],$_GET['user_type'],$_GET['verified'], 
+	$_GET['verify_code'],$_GET['root_dir']);
 
 
 if($user->good_code($_POST['code']))
@@ -17,6 +19,7 @@ if($user->good_code($_POST['code']))
 	$_SESSION['user_type'] = $user->user_type;
 	$_SESSION['verified'] = $user->verified;
 	$_SESSION['verify_code'] = $user->code;
+	$_SESSION['root_dir'] = $user->root_dir;
 	include ('gooduser.php');
 }
 else
@@ -29,6 +32,7 @@ else
 	$_SESSION['user_type'] = $user->user_type;
 	$_SESSION['verified'] = $user->verified;
 	$_SESSION['verify_code'] = $user->code;
+	$_SESSION['root_dir'] = $user->root_dir;
 	include ('badcode.php');
 }
 ?>
