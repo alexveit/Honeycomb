@@ -7,7 +7,7 @@ $user;
 if(isset($_SESSION['id']))
 {
 	$user = new User($_SESSION['id'],$_SESSION['first'],$_SESSION['last'],$_SESSION['email'],
-		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code']);
+		$_SESSION['pw'],$_SESSION['user_type'],$_SESSION['verified'],$_SESSION['verify_code'],$_SESSION['root_dir']);
 
 	setcookie("id", $user->id, time()+600);
 	setcookie("first", $user->first, time()+600);
@@ -17,11 +17,12 @@ if(isset($_SESSION['id']))
 	setcookie("user_type", $user->user_type, time()+600);
 	setcookie("verified", $user->verified, time()+600);
 	setcookie("verify_code", $user->code, time()+600);
+	setcookie("root_dir", $user->root_dir, time()+600);
 }
 else if(isset($_COOKIE['id']))
 {
 	$user = new User($_COOKIE['id'],$_COOKIE['first'],$_COOKIE['last'],$_COOKIE['email'],
-		$_COOKIE['pw'],$_COOKIE['user_type'],$_COOKIE['verified'],$_COOKIE['verify_code']);
+		$_COOKIE['pw'],$_COOKIE['user_type'],$_COOKIE['verified'],$_COOKIE['verify_code'],$_COOKIE['root_dir']);
 }
 else
 {
@@ -114,47 +115,57 @@ else
 									{
 										//pull out file information from temp location on server
 										$tmp_name = $_FILES['uploadedfile']['tmp_name'];
-										$filetype = $_FILES['uploadedfile']['type'];
-										$filesize = $_FILES['uploadedfile']['size'];
-										$filename = $_FILES['uploadedfile']['name'];
-
-										//extract the file data
-										$data = fopen($tmp_name, 'rb');
-										$data = fread ($data, $filesize);
-										$data = addslashes($data); //adding slashes so it doesnot break anything
-
-										$con = get_db_connection();
-
-										//send to database
-										$query = "INSERT INTO files (user_id, folder_id, data, filename, filesize, filetype) 
-													VALUES ('$user->id', 0, '$data', '$filename', '$filesize', '$filetype')";
-
-										$result = mysqli_query($con,$query);
-
-
-
+										
+										
+											if (move_uploaded_file($_FILES['uploadedfile']['tmp_name'], "C:/xampp/htdocs/files_upload/files/veit38/". basename($_FILES['uploadedfile']['name'])))
+												echo "File has been successfuly uploaded";
+											else
+												echo "Error: File not uploaded";
+										
 									}
 
-									$query = "SELECT id, folder_id, filename, filesize, filetype FROM files WHERE user_id=$user->id";
+									/*********file structure here**********/
+									echo " <h3> Directory content </h3>";
+									$query = "SELECT * FROM root_dir where name='$user->'";
 
-									$result = mysqli_query($con,$query);
+									//retrieving the root_dir content in db
+									if  ($result = mysqli_query($conn, $query)) 
+									{
+										if (mysqli_num_rows($result) == 1)
+										{
+											$object = mysqli_fetch_object($result);
+											$directory = $object->path;
+											$root_dir_name = $object->name;
+										}
+									}
+
+
+									//move to veit38 file dir
+									$files = glob($directory . "*");
+									chdir($directory);
+
+
+									echo"
+
+									<ol class='tree'>
+										
+										<li>
+											<label for='folder2'> " . $root_dir_name . "</label> <input type='checkbox' id='folder2' /> 
+												<ol>";
+												foreach ($files as $file)
+												{
+													$filelink = $directory . basename($file);
+													echo "<li class='file'><a href='$filelink'>". basename($file). " </a></li>";
+												}
 
 									echo "
-									<td style='vertical-align:text-top;'><table border='0' style='width:600px;'>
-										<tr><th>ID</th> <th>Folder</th> <th>Name</th> <th>Size(bytes)</th> <th>Type</th></tr>";
-										while	($row = mysqli_fetch_array($result))
-										{
-											echo "<tr>";
-											echo "<td style='text-align:center'>" . $row['id'] . "</td>";
-											echo "<td style='text-align:center'>" . $row['folder_id'] . "</td>";
-											echo "<td style='text-align:center'>" . $row['filename'] . "</td>";
-											echo "<td style='text-align:center'>" . $row['filesize'] . "</td>";
-											echo "<td style='text-align:center'>" . $row['filetype'] . "</td>";
-											echo "<td style='text-align:center'><a href='download.php?id=" .$row['id'] ."'>Download</a></td>";
-											echo "</tr>";
-										}
-
-									echo "</table></td>";
+												</ol>
+										</li>
+										<li>
+									</ol>
+										";
+										
+									/************file structure ends here************/
 									mysqli_close($con);
 								?>
 								<td style="width:50px"></td>
