@@ -17,6 +17,11 @@ function isWhitespaceNotEmpty(text)
 	return ((text.length > 0 && !/[^\s]/.test(text)) || text==null || text=="");
 }
 
+function has_selection()
+{
+	
+	return true;
+}
 
 function validateForm()
 {

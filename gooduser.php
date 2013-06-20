@@ -161,7 +161,7 @@ else
 								<td style='vertical-align:text-top;'>
 									<form enctype='multipart/form-data' name='fileupload' action='gooduser.php' method='POST'>
 										<input style="text-align:right;" type='file' name='uploadedfile'></br>
-										<input class="btn btn-primary" type='submit' name='upload' value='Upload File'>
+										<input class="btn btn-primary" type='submit' name='upload' onClick="return has_selection()" value='Upload File'>
 									</form>
 									<?php
 									if (isset($_POST['upload']))
